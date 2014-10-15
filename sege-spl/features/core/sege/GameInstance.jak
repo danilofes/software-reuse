@@ -1,0 +1,16 @@
+/**
+ * Represents an instance of a particular game and provides the operations to play it.
+ */
+public interface GameInstance {
+
+	GameInstanceInfo getInfo();
+	
+	boolean join(String playerId);
+
+	void leave(String playerId);
+	
+	GameState getState(String playerId);
+	
+	GameState doAction(String playerId, String actionId);
+
+}

@@ -1,0 +1,9 @@
+
+public interface GameState {
+
+	String getPlayerId();
+	
+	String[] getActions();
+	
+	String toJson();
+}

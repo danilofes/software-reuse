@@ -1,0 +1,14 @@
+/**
+ * The Facade that centralizes the interactions with the game server.
+ */
+public interface GameService {
+
+	GameInstanceInfo[] listRooms();
+
+	boolean joinRoom(String roomId, String playerId);
+
+	GameState gameStatus(String roomId, String playerId);
+
+	GameState doAction(String roomId, String playerId, String actionId);
+
+}

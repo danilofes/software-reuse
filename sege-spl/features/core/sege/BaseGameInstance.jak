@@ -1,0 +1,6 @@
+/**
+ * Base abstract class to help to implement a GameInstance.
+ */
+public abstract class BaseGameInstance implements GameInstance {
+
+}
