@@ -1,0 +1,9 @@
+
+import sege.BaseGameInstance;
+
+/**
+ * TODO description
+ */
+public class QuizGameInstance extends BaseGameInstance {
+
+}

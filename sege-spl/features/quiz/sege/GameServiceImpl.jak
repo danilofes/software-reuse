@@ -1,0 +1,11 @@
+/**
+ * TODO description
+ */
+public refines class GameServiceImpl {
+
+	protected void initRooms() {
+		Super().initRooms();
+		this.games.add(new QuizGameInstance());
+	}
+
+}

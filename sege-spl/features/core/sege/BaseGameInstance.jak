@@ -1,6 +1,90 @@
+
+import java.util.List;
+import java.util.ArrayList;
+
 /**
  * Base abstract class to help to implement a GameInstance.
  */
 public abstract class BaseGameInstance implements GameInstance {
 
+	private String status;
+	private String roomId;
+	private List players;
+
+	protected static final String OPEN = "open";
+	protected static final String STARTED = "started";
+	protected static final String FINISHED = "finished";
+
+	protected static final String ACTION_START = "start";
+
+	public BaseGameInstance(String roomId) {
+		this.status = OPEN;
+		this.roomId = roomId;
+		this.players = new ArrayList();
+	}
+
+	public GameInstanceInfo getInfo() {
+		return new GameInstanceInfo() {
+			public String getRoomId() {return roomId;}
+			public String getRoomStatus() {return status;}
+			public int getNumberOfPlayers() {return players.size();}
+		};
+	}
+
+	public boolean join(String playerId) {
+		if (this.status == OPEN && !this.players.contains(playerId)) {
+			this.players.add(playerId);
+			return true;
+		}
+		return false;
+	}
+
+	public void leave(String playerId) {
+		if (this.players.contains(playerId)) {
+			this.players.remove(playerId);
+			if (this.players.isEmpty()) {
+				this.status = OPEN;
+			}
+		} else {
+			throw new RuntimeException(String.format("Player %s is not in room %s.", playerId, roomId));
+		}
+	}
+
+	public GameState getState(final String playerId) {
+		if (this.status == OPEN) {
+			return new GameState() {
+				public String getPlayerId() {return playerId}
+				public String[] getActions() {return new String[]{ACTION_START}}
+				public String toJson() {return }
+			};
+		} else if (this.status == STARTED) {
+			return getStateWhenStarted(playerId);
+		}
+		
+	}
+
+	public GameState doAction(String playerId, String actionId) {
+		if (this.status == OPEN) {
+			if (actionId == ACTION_START) {
+				this.status = STARTED;
+				this.startNewGame();
+				return getStateWhenStarted(playerId);
+			}
+		} else if (this.status == STARTED) {
+			List possibleActions = this.getActionsForPlayer(playerId);
+			if (possibleActions.contains(actionId)) {
+				this.doValidAction(playerId, actionId);
+				return getStateWhenStarted(playerId);
+			}
+		}
+		throw new RuntimeException("Invalid action: " + actionId);
+	}
+	
+	protected abstract List getActionsForPlayer(String playerId);
+
+	protected abstract void doValidAction(String playerId, String actionId);
+
+	protected abstract void startNewGame();
+
+	protected abstract GameState getStateWhenStarted(String playerId);
 }
