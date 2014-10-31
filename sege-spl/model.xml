@@ -3,8 +3,37 @@
 		<struct>
 			<and abstract="true" mandatory="true" name="segespl">
 				<feature mandatory="true" name="core"/>
-				<feature name="quiz"/>
-				<feature name="simules"/>
+				<or abstract="true" name="games">
+					<or mandatory="true" name="quiz">
+						<feature mandatory="true" name="reutilizacao"/>
+						<feature mandatory="true" name="arquitetura"/>
+						<feature mandatory="true" name="idiomas"/>
+						<feature mandatory="true" name="aspectos"/>
+						<feature mandatory="true" name="componentes"/>
+					</or>
+					<and mandatory="true" name="simules">
+						<and mandatory="true" name="cards">
+							<alt abstract="true" mandatory="true" name="buy">
+								<feature mandatory="true" name="fixed"/>
+								<feature mandatory="true" name="rolldice"/>
+							</alt>
+							<and abstract="true" mandatory="true" name="cardsets">
+								<feature mandatory="true" name="engineers"/>
+								<feature name="problems"/>
+								<feature name="practices"/>
+							</and>
+						</and>
+						<alt name="minplayers">
+							<feature mandatory="true" name="min2p"/>
+							<feature mandatory="true" name="min4p"/>
+						</alt>
+						<alt name="maxplayers">
+							<feature mandatory="true" name="max4p"/>
+							<feature mandatory="true" name="max6p"/>
+						</alt>
+						<feature name="bugs"/>
+					</and>
+				</or>
 			</and>
 		</struct>
 		<constraints/>
