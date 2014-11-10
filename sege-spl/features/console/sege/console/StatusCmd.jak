@@ -1,0 +1,14 @@
+
+import sege.GameService;
+
+public class StatusCmd extends Cmd {
+
+	public StatusCmd(String gameId, String playerId) {
+		super(gameId, playerId, null);
+	}
+
+	String exec(GameService service) {
+		return "status";
+	}
+
+}

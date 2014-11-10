@@ -1,0 +1,14 @@
+
+import sege.GameService;
+
+public class LeaveCmd extends Cmd {
+
+	public LeaveCmd(String gameId, String playerId) {
+		super(gameId, playerId, null);
+	}
+
+	String exec(GameService service) {
+		return "leave";
+	}
+
+}

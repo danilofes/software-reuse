@@ -1,0 +1,14 @@
+
+import sege.GameService;
+
+public class DoCmd extends Cmd {
+
+	public DoCmd(String gameId, String playerId, String actionId) {
+		super(gameId, playerId, actionId);
+	}
+
+	String exec(GameService service) {
+		return "do";
+	}
+
+}

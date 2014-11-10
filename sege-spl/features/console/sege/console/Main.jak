@@ -1,47 +1,49 @@
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
+import sege.GameService;
+import sege.GameServiceImpl;
+
 public class Main {
 
-	private static final int LIST = 1;
-	private static final int STATE = 2;
-	private static final int JOIN = 3;
-	private static final int LEAVE = 4;
-	private static final int DO = 5;
-	private static final int UNKNOWN = 0;
-	
-	public static void main(String[] args) {
-		
-		GameService gs = new GameServiceImpl.create();
-		
-		private static class Cmd {
-			private int cmd;
-			private String gameId;
-			private String playerId;
-			private String actionId;
+	public static void main(String[] args) throws IOException {
+		GameService gs = GameServiceImpl.create();
+		BufferedReader console = new BufferedReader(new InputStreamReader(System.in));
+		try {
+			Cmd command;
+			do {
+				command = readCommand(console);
+				String response = command.exec(gs);
+				printResponse(response);
+			} while (command.isExit());
+		} finally {
+			console.close();
 		}
-
-		do {
-			String command = this.readCommand();
-			switch () {
-			
-			}
-		}
-		
 	}
 	
-	private static Cmd readCommand(String str) {
-		String[] parts = str.split(" *");
-		Cmd cmd = new Cmd();
+	private static Cmd readCommand(BufferedReader console) throws IOException {
+		String input = console.readLine();
+		String[] parts = input.split(" ");
+		Cmd cmd;
 		if (parts[0].equals("list")) {
-			cmd.cmd = 
-		} else if (parts[0].equals("state")) {
-			
+			cmd = new ListCmd();
+		} else if (parts[0].equals("status")) {
+			cmd = new StatusCmd(parts[1], parts[2]);
 		} else if (parts[0].equals("join")) {
-			
+			cmd = new JoinCmd(parts[1], parts[2]);
 		} else if (parts[0].equals("leave")) {
-			
+			cmd = new LeaveCmd(parts[1], parts[2]);
 		} else if (parts[0].equals("do")) {
-			
+			cmd = new DoCmd(parts[1], parts[2], parts[3]);
 		} else {
-			
+			cmd = new ExitCmd();
 		}
+		return cmd;
+	}
+	
+	private static void printResponse(String response) {
+		System.out.println(response);
 	}
 }
