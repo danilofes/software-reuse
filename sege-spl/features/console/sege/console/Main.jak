@@ -1,0 +1,47 @@
+public class Main {
+
+	private static final int LIST = 1;
+	private static final int STATE = 2;
+	private static final int JOIN = 3;
+	private static final int LEAVE = 4;
+	private static final int DO = 5;
+	private static final int UNKNOWN = 0;
+	
+	public static void main(String[] args) {
+		
+		GameService gs = new GameServiceImpl.create();
+		
+		private static class Cmd {
+			private int cmd;
+			private String gameId;
+			private String playerId;
+			private String actionId;
+		}
+
+		do {
+			String command = this.readCommand();
+			switch () {
+			
+			}
+		}
+		
+	}
+	
+	private static Cmd readCommand(String str) {
+		String[] parts = str.split(" *");
+		Cmd cmd = new Cmd();
+		if (parts[0].equals("list")) {
+			cmd.cmd = 
+		} else if (parts[0].equals("state")) {
+			
+		} else if (parts[0].equals("join")) {
+			
+		} else if (parts[0].equals("leave")) {
+			
+		} else if (parts[0].equals("do")) {
+			
+		} else {
+			
+		}
+	}
+}

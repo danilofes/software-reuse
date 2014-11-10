@@ -26,8 +26,12 @@ public class GameServiceImpl implements GameService {
 		return infos;
 	}
 
-	public boolean joinRoom(String roomId, String playerId) {
+	public boolean joinGame(String roomId, String playerId) {
 		return false;
+	}
+	
+	public void leaveGame(String roomId, String playerId) {
+		
 	}
 
 	public GameState gameStatus(String roomId, String playerId) {
@@ -37,4 +41,5 @@ public class GameServiceImpl implements GameService {
 	public GameState doAction(String roomId, String playerId, String actionId) {
 		return null;
 	}
+	
 }

@@ -34,6 +34,7 @@
 						<feature name="bugs"/>
 					</and>
 				</or>
+				<feature name="console"/>
 			</and>
 		</struct>
 		<constraints/>

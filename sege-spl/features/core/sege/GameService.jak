@@ -5,7 +5,9 @@ public interface GameService {
 
 	GameInstanceInfo[] listRooms();
 
-	boolean joinRoom(String roomId, String playerId);
+	boolean joinGame(String roomId, String playerId);
+	
+	void leaveGame(String roomId, String playerId);
 
 	GameState gameStatus(String roomId, String playerId);
 
