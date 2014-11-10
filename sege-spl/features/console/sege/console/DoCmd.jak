@@ -1,5 +1,6 @@
 
 import sege.GameService;
+import sege.GameState;
 
 public class DoCmd extends Cmd {
 
@@ -8,7 +9,8 @@ public class DoCmd extends Cmd {
 	}
 
 	String exec(GameService service) {
-		return "do";
+		GameState s = service.doAction(this.gameId, this.playerId, this.actionId);
+		return s.toJson();
 	}
 
 }
