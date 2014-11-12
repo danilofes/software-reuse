@@ -3,6 +3,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+import com.google.gson.Gson;
+
 import sege.GameService;
 import sege.GameServiceImpl;
 
@@ -10,12 +12,13 @@ public class Main {
 
 	public static void main(String[] args) throws IOException {
 		GameService gs = GameServiceImpl.create();
+		Gson gson = new Gson();
 		BufferedReader console = new BufferedReader(new InputStreamReader(System.in));
 		try {
 			Cmd command;
 			do {
 				command = readCommand(console);
-				String response = command.exec(gs);
+				String response = gson.toJson(command.exec(gs));
 				printResponse(response);
 			} while (command.isExit());
 		} finally {

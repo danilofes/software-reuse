@@ -8,9 +8,9 @@ public class StatusCmd extends Cmd {
 		super(gameId, playerId, null);
 	}
 
-	String exec(GameService service) {
+	Object exec(GameService service) {
 		GameState s = service.gameStatus(this.gameId, this.playerId);
-		return s.toJson();
+		return s;
 	}
 
 }

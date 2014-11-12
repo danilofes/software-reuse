@@ -7,8 +7,8 @@ public class JoinCmd extends Cmd {
 		super(gameId, playerId, null);
 	}
 	
-	String exec(GameService service) {
-		return "join";
+	Object exec(GameService service) {
+		return service.joinGame(this.gameId, this.playerId);
 	}
 
 }

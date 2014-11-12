@@ -8,7 +8,7 @@ public class ExitCmd extends Cmd {
 	}
 	
 	String exec(GameService service) {
-		return "exit";
+		return "";
 	}
 	
 	boolean isExit() {

@@ -13,7 +13,7 @@ abstract class Cmd {
 		this.actionId = actionId;
 	}
 	
-	abstract String exec(GameService service);
+	abstract Object exec(GameService service);
 	
 	boolean isExit() {
 		return false;

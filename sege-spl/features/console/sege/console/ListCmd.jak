@@ -7,8 +7,8 @@ public class ListCmd extends Cmd {
 		super(null, null, null);
 	}
 
-	String exec(GameService service) {
-		return "list";
+	Object exec(GameService service) {
+		return service.listRooms();
 	}
 
 }

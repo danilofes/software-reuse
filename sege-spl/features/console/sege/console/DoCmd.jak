@@ -8,9 +8,9 @@ public class DoCmd extends Cmd {
 		super(gameId, playerId, actionId);
 	}
 
-	String exec(GameService service) {
+	Object exec(GameService service) {
 		GameState s = service.doAction(this.gameId, this.playerId, this.actionId);
-		return s.toJson();
+		return s;
 	}
 
 }

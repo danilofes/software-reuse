@@ -7,8 +7,9 @@ public class LeaveCmd extends Cmd {
 		super(gameId, playerId, null);
 	}
 
-	String exec(GameService service) {
-		return "leave";
+	Boolean exec(GameService service) {
+		service.leaveGame(this.gameId, this.playerId);
+		return true;
 	}
 
 }
