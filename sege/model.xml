@@ -1,40 +1,38 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 	<featureModel chosenLayoutAlgorithm="4">
 		<struct>
-			<and abstract="true" mandatory="true" name="segespl">
+			<and abstract="true" mandatory="true" name="sege">
 				<feature mandatory="true" name="core"/>
+				<feature name="console_client"/>
 				<or abstract="true" name="games">
 					<or mandatory="true" name="quiz">
-						<feature mandatory="true" name="reutilizacao"/>
-						<feature mandatory="true" name="arquitetura"/>
-						<feature mandatory="true" name="idiomas"/>
-						<feature mandatory="true" name="aspectos"/>
-						<feature mandatory="true" name="componentes"/>
+						<feature mandatory="true" name="questions_reuse"/>
+						<feature mandatory="true" name="questions_architecture"/>
+						<feature mandatory="true" name="questions_idioms"/>
+						<feature mandatory="true" name="questions_aspects"/>
+						<feature mandatory="true" name="questions_cbse"/>
 					</or>
 					<and mandatory="true" name="simules">
-						<and mandatory="true" name="cards">
-							<alt abstract="true" mandatory="true" name="buy">
-								<feature mandatory="true" name="fixed"/>
-								<feature mandatory="true" name="rolldice"/>
-							</alt>
-							<and abstract="true" mandatory="true" name="cardsets">
-								<feature mandatory="true" name="engineers"/>
-								<feature name="problems"/>
-								<feature name="practices"/>
-							</and>
+						<alt abstract="true" mandatory="true" name="card_buy_strategy">
+							<feature mandatory="true" name="fixed"/>
+							<feature mandatory="true" name="rolldice"/>
+						</alt>
+						<and abstract="true" mandatory="true" name="card_sets">
+							<feature mandatory="true" name="engineers"/>
+							<feature name="problems"/>
+							<feature name="practices"/>
 						</and>
-						<alt name="minplayers">
-							<feature mandatory="true" name="min2p"/>
-							<feature mandatory="true" name="min4p"/>
-						</alt>
-						<alt name="maxplayers">
-							<feature mandatory="true" name="max4p"/>
-							<feature mandatory="true" name="max6p"/>
-						</alt>
 						<feature name="bugs"/>
+						<alt name="min_players">
+							<feature mandatory="true" name="min_2p"/>
+							<feature mandatory="true" name="min_4p"/>
+						</alt>
+						<alt name="max_players">
+							<feature mandatory="true" name="max_6p"/>
+							<feature mandatory="true" name="max_8p"/>
+						</alt>
 					</and>
 				</or>
-				<feature name="console"/>
 			</and>
 		</struct>
 		<constraints/>
