@@ -1,15 +1,13 @@
 package sege;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import com.google.gson.reflect.TypeToken;
 
 import java.io.InputStream;
 
@@ -30,13 +28,13 @@ public class GameServiceImpl implements GameService {
 
 	protected Map<String, GameRoom> games = new LinkedHashMap<String, GameRoom>();
 	private Gson gson = new GsonBuilder().setPrettyPrinting().create();
-	
+
 	public static GameService create() {
 		GameServiceImpl service = new GameServiceImpl();
 		service.initGames();
 		return service;
 	}
-	
+
 	private void initGames() {
 		try {
 			InputStream in = this.getClass().getClassLoader().getResourceAsStream("games.xml");
@@ -64,15 +62,17 @@ public class GameServiceImpl implements GameService {
 
 	public synchronized String listGames() {
 		Collection<GameRoom> gs = this.games.values();
-		List<JsonObject> infos = new ArrayList<JsonObject>(gs.size());
+		JsonArray array = new JsonArray();
 		for (GameRoom gi : gs) {
 			JsonObject obj = new JsonObject();
 			obj.addProperty("gameId", gi.getId());
 			obj.addProperty("status", gi.getStatus());
 			obj.addProperty("numberOfPlayers", gi.getNumberOfPlayers());
-			infos.add(obj);
+			array.add(obj);
 		}
-		return gson.toJson(infos, new TypeToken<List<JsonObject>>(){}.getType());
+		JsonObject response = new JsonObject();
+		response.add("games", array);
+		return gson.toJson(response);
 	}
 
 	public synchronized String joinGame(String gameId, String playerId) throws GameException {
@@ -80,13 +80,13 @@ public class GameServiceImpl implements GameService {
 		gi.join(playerId);
 		return gson.toJson(gi.getState(playerId));
 	}
-	
+
 	public synchronized String leaveGame(String gameId, String playerId) throws GameException {
 		GameRoom gi = this.get(gameId);
 		gi.leave(playerId);
 		return this.listGames();
 	}
-	
+
 	public synchronized String startGame(String gameId, String playerId) throws GameException {
 		GameRoom gi = this.get(gameId);
 		gi.start(playerId);
@@ -102,7 +102,7 @@ public class GameServiceImpl implements GameService {
 		gi.applyAction(playerId, actionId);
 		return gson.toJson(gi.getState(playerId));
 	}
-	
+
 	private GameRoom get(String gameId) throws GameException {
 		GameRoom gi = this.games.get(gameId);
 		if (gi == null) {

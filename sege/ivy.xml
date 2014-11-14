@@ -5,8 +5,12 @@
   <info organisation="org.danilofes" module="sege" />
   
   <dependencies>
+    <!--
     <dependency org="junit" name="junit" rev="4.10" />
+    -->
     <dependency org="com.google.code.gson" name="gson" rev="2.3" />
+    <dependency org="org.eclipse.jetty" name="jetty-servlet" rev="9.2.5.v20141112" />
+    <dependency org="org.jboss.resteasy" name="resteasy-jaxrs" rev="3.0.10.Final" />
   </dependencies>
   
 </ivy-module>
