@@ -1,0 +1,58 @@
+list
+[
+  {
+    "gameId": "quiz",
+    "status": "open",
+    "numberOfPlayers": 0
+  }
+]
+join quiz danilo
+{
+  "gameId": "quiz",
+  "status": "open",
+  "players": [
+    "danilo"
+  ]
+}
+start quiz danilo
+{
+  "gameId": "quiz",
+  "status": "started",
+  "state": {
+    "score": {
+      "danilo": 0
+    },
+    "currentPlayer": "danilo",
+    "question": "A engenharia de software baseada em reúso é uma abordagem de desenvolvimento que tenta maximizar o uso de software existente.",
+    "options": {
+      "1": "Verdadeiro",
+      "2": "Falso"
+    }
+  },
+  "actions": [
+    "1",
+    "2"
+  ]
+}
+do quiz danilo 1
+{
+  "gameId": "quiz",
+  "status": "started",
+  "state": {
+    "score": {
+      "danilo": 1
+    },
+    "currentPlayer": "danilo",
+    "question": "A engenharia de software baseada em reúso é uma abordagem de desenvolvimento que tenta maximizar o uso de software existente.",
+    "options": {
+      "1": "Falso",
+      "2": "Verdadeiro"
+    }
+  },
+  "actions": [
+    "1",
+    "2"
+  ]
+}
+exit
+
