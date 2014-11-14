@@ -10,8 +10,10 @@ public interface GameService {
 	String joinGame(String gameId, String playerId) throws GameException;
 	
 	String leaveGame(String gameId, String playerId) throws GameException;
+	
+	String startGame(String gameId, String playerId) throws GameException;
 
-	String gameStatus(String gameId, String playerId) throws GameException;
+	String gameState(String gameId, String playerId) throws GameException;
 
 	String doAction(String gameId, String playerId, String actionId) throws GameException;
 

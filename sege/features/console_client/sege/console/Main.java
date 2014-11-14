@@ -40,10 +40,16 @@ public class Main {
 			cmd = new JoinCmd(parts[1], parts[2]);
 		} else if (parts[0].equals("leave")) {
 			cmd = new LeaveCmd(parts[1], parts[2]);
+		} else if (parts[0].equals("start")) {
+			cmd = new StartCmd(parts[1], parts[2]);
+		} else if (parts[0].equals("state")) {
+			cmd = new StateCmd(parts[1], parts[2]);
 		} else if (parts[0].equals("do")) {
 			cmd = new DoCmd(parts[1], parts[2], parts[3]);
-		} else {
+		} else if (parts[0].equals("exit")) {
 			cmd = new ExitCmd();
+		} else {
+			cmd = new InvalidCmd();
 		}
 		return cmd;
 	}
