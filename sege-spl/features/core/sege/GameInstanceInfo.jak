@@ -1,8 +1,0 @@
-/**
- * Represents general info about a game instance (room), so that a palyer may decide to join.
- */
-public interface GameInstanceInfo {
-	String getRoomId();
-	String getRoomStatus();
-	int getNumberOfPlayers();
-}
