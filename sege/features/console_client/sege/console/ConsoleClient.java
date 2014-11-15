@@ -13,6 +13,8 @@ public class ConsoleClient {
 	public static void main(String[] args) throws IOException {
 		GameService gs = GameServiceImpl.create();
 		BufferedReader console = new BufferedReader(new InputStreamReader(System.in));
+		printAvailableCommands();
+		
 		try {
 			Cmd command;
 			do {
@@ -52,6 +54,17 @@ public class ConsoleClient {
 			cmd = new InvalidCmd();
 		}
 		return cmd;
+	}
+	
+	private static void printAvailableCommands() {
+		System.out.println("Available commands:");
+		System.out.println("  list");
+		System.out.println("  join {gameId} {player}");
+		System.out.println("  leave {gameId} {player}");
+		System.out.println("  start {gameId} {player}");
+		System.out.println("  state {gameId} {player}");
+		System.out.println("  do {gameId} {player} {action}");
+		System.out.println("  exit");
 	}
 	
 	private static void printResponse(String response) {

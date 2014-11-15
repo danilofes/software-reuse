@@ -7,4 +7,8 @@ public interface GamePlugin {
 
 	InternalGameState createInitialState(List<String> players);
 
+	int getMinPlayers();
+
+	int getMaxPlayers();
+
 }

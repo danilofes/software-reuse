@@ -22,4 +22,12 @@ public class Quiz implements GamePlugin {
 		return new QuizGameStateIntermediate(pool, playersArray, score, 1, 0, question);
 	}
 
+	public int getMinPlayers() {
+		return 1;
+	}
+	
+	public int getMaxPlayers() {
+		return Integer.MAX_VALUE;
+	}
+
 }
