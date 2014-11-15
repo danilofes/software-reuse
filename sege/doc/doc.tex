@@ -123,14 +123,23 @@ Documentação & Danilo & 14/11 \\
 
 \subsection{Tecnologias Utilizadas}
 
-A SPL foi construída com a ferramenta \emph{FeatureIDE}~\cite{kastner2009featureide}, utilizando a tecnologia de composição \emph{FeatureHouse} \cite{apel2009featurehouse}, que dá suporte a Programação Orientada a Características (FOP). %, oferecendo recursos semelhantes aos obtidos com a utilização de \emph{AHEAD}. 
+A SPL foi construída com a ferramenta \textbf{FeatureIDE}~\cite{kastner2009featureide}, utilizando a tecnologia de composição \textbf{FeatureHouse} \cite{apel2009featurehouse}, que dá suporte a Programação Orientada a Características (FOP). %, oferecendo recursos semelhantes aos obtidos com a utilização de \emph{AHEAD}. 
 Antes de se chegar a essa decisão, foram considerados também o uso de \emph{AspectJ} e \emph{AHEAD} como mecanismos de composição, mas ambos apresentaram algum inconveniente. No caso da composição com \emph{AspectJ}, a principal dificuldade enfrentada foi que a ferramenta \emph{FeatureIDE} considera que cada característica do modelo está atrelada a um único aspecto. No entanto, esse relacionamento um para um foi considerado inapropriado, visto que uma característica pode ser grande o suficiente para conter diversas classes colaborando entre si para implementá-la.
 No caso da composição com \emph{AHEAD}, há suporte apenas para construções Java da versão 1.4. Ou seja, o uso de \emph{generics}, \texttt{enum}, e outras facilidades introduzidas nas versões posteriores não é suportado.
 
+Além das tecnologias de suporte a SPL, foram utilizados também:
+\begin{itemize}
+\item \textbf{J2EE Servlets}: Padrão J2EE para implementação de aplicações Web.
+\item \textbf{Jetty Server}: Servlet Container utilizado.
+\item \textbf{JAX-RS}: Padrão J2EE para implementação de serviços REST.
+\item \textbf{JBoss RESTEasy}: API que implementa o padrão JAX-RS.
+\item \textbf{Google Gson}: API para serialização/deserialização de objetos no formato JSON.
+\item \textbf{IvyDE Plug-in}: Plug-in do Eclipse que dá suporte a gestão de dependências de bibliotecas externas via Apache Ivy.
+\end{itemize}
 
 \subsection{Arquitetura}
 
-A Figura~\ref{img:architecture} representa a arquitetura do sistema. O sistema utiliza o padrão arquitetural \textbf{cliente--servidor}, cujo elemento principal é o serviço Web \emph{SEGE Core}. Esse serviço expõe expõe um conjunto de operações, usando o estilo arquitetural REST~\cite{fielding2000rest} sob o protocolo HTTP. Dessa forma, há uma flexibilidade para implementar clientes em qualquer tipo de tecnologia, incluindo uma interface Web. Como a tecnologia Web utilizada foi baseada em J2EE, é necessário executar o serviço em um \emph{Servlet Container} (e.g. \emph{Apache Tomcat}).
+A Figura~\ref{img:architecture} representa a arquitetura do sistema. O sistema utiliza o padrão arquitetural \textbf{cliente--servidor}, cujo elemento principal é o serviço Web \emph{SEGE Core}. Esse serviço expõe expõe um conjunto de operações, usando o estilo arquitetural REST~\cite{fielding2000rest} sob o protocolo HTTP. Dessa forma, há uma flexibilidade para implementar clientes em qualquer tipo de tecnologia, incluindo uma interface Web. Como a tecnologia Web utilizada foi baseada em J2EE, é necessário executar o serviço em um \emph{Servlet Container} (e.g. \emph{Jetty, Apache Tomcat}, etc).
 
 \begin{figure}[htb]
 \centering
@@ -141,10 +150,89 @@ A Figura~\ref{img:architecture} representa a arquitetura do sistema. O sistema u
 
 Além disso, internamente o serviço utiliza o padrão arquitetural \textbf{microkernel}, onde existe um núcleo mínimo oferecendo um arcabouço geral para implementação dos jogos, mas cada jogo específico é um \emph{plug-in}. Para isso, um jogo deve implementar interfaces básicas exigidas pelo núcleo e deve ser responsável por gerenciar seu estado interno e enumerar as ações disponíveis para os jogadores.
 
+\subsubsection{Interface do Serviço de Jogos}
+
+O serviço de jogos é baseado no estilo arquitetural REST e fornece um conjunto de operações para interagir com o servidor de jogos, conforme listado na Tabela~\ref{tab:operations}. Entre as operações podemos citar: listar as salas, entrar em um jogo, iniciar a partida e postar ações durante a partida. 
+
+\begin{table*}[htb]\centering
+\footnotesize
+\tra{1.1}
+\begin{tabular}{@{}llll@{}}\toprule
+\textbf{Verbo HTTP} & \textbf{URL} & \textbf{Parâmetros} & \textbf{Descrição} \\
+\midrule
+GET & \texttt{games} & & Lista as salas disponíveis \\
+GET & \texttt{games/\{gameId\}/\{playerId\}} & & Exibe o estado do jogo \\
+PUT & \texttt{games/\{gameId\}/\{playerId\}} & & Adiciona jogador na sala \\
+DELETE & \texttt{games/\{gameId\}/\{playerId\}} & & Remove jogador da sala \\
+POST & \texttt{games/\{gameId\}/\{playerId\}/start} & & Inicia a partida \\
+POST & \texttt{games/\{gameId\}/\{playerId\}/do} & \texttt{\{action\}} & Submete uma ação \\
+\bottomrule
+\end{tabular}
+\caption{Operações do serviço de jogos}
+\label{tab:operations}
+\end{table*}
+
+Todas as operações do serviço retornam a resposta como um documento no formato \emph{Javascript Object Notation} (JSON). Todas as informações necessárias para representar o estado do jogo sob a perspectiva de um determinado jogador são representadas nesse documento, como exemplificado na Figura~\ref{img:json}. Além disso, por padrão existe sempre uma chave \texttt{actions} que contém a lista das ações específicas do jogo que estão disponíveis para o jogador.
+
+\begin{figure}[htb]
+\centering
+\footnotesize
+\begin{verbatim}
+> curl -X GET http://localhost:8080/games/quiz/danilo
+{
+  "gameId": "quiz",
+  "status": "started",
+  "state": {
+    "score": {
+      "danilo": 1
+    },
+    "currentRound": 4,
+    "currentPlayer": "danilo",
+    "question": "As seguintes opções são potenciais problemas associados a
+                 reutilização de software, exceto.",
+    "options": {
+      "1": "Falta de ferramentas de suporte",
+      "2": "Manutenção de uma biblioteca de componentes",
+      "3": "Maiores custos de manutenção",
+      "4": "Maior treinamento da equipe"
+    }
+  },
+  "actions": ["1", "2", "3", "4"]
+}
+\end{verbatim}
+\caption{Exemplo de requisição e resposta em JSON, representando o estado do jogo e ações disponíveis}
+\label{img:json}
+\end{figure}
+
+\subsubsection{Plug-ins de Jogos}
+
+Jogos são adicionados ao servidor na forma de plug-ins. Para tal, é necessário implementar a interface \texttt{GamePlugin} para o jogo em questão. Além disso, o jogo deve ser registrado no arquivo de configuração \texttt{games.xml}, indicando um identificador do jogo e o nome qualificado da classe que o implementa. A Figura~\ref{img:gamesxml} mostra um exemplo de tal arquivo.
+
+\begin{figure}[htb]
+\centering
+\footnotesize
+\begin{verbatim}
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<games>
+  <game id="simules" gameClass="sege.simules.SimulEs"/>
+</games>
+\end{verbatim}
+\caption{Exemplo de configuração do arquivo \texttt{games.xml}}
+\label{img:gamesxml}
+\end{figure}
+
+É interessante ressaltar que a composição com \emph{FeatureHouse} é capaz de tratar arquivos XML, fazendo a combinação de seus nodos em um único arquivo. Isso permite que a configuração, assim como o código, fique modularizado dentro do diretório da característica.
 
 \subsection{Padrões de Projeto}
 
-
+Os seguintes padrões de projeto foram utilizados na implementação do código:
+\begin{itemize}
+\item \textbf{Facade}: A interface interface \texttt{GameService} funciona como uma fachada para o servidor de jogos.
+\item \textbf{Adapter}: A classe \texttt{RestGameService} adapta a interface \texttt{GameService}, delegando as chamadas de métodos mas modificando o tipo de retorno para uma resposta HTTP.
+\item \textbf{Abstract Factory}: A interface \texttt{GamePlugin} funciona como uma fábrica abstrata, pois apenas uma implementação específica de um jogo conhece qual tipo de objeto deve ser criado pelo método \texttt{createInitialState} para representar o estado interno.
+\item \textbf{State}: A classe \texttt{GameRoom}, que representa uma instância de um jogo em execução, utiliza um objeto do tipo \texttt{InternalGameState} para representar o estado interno de um jogo e delega a responsabilidade de obter e aplicar as ações disponíveis para esse objeto.
+\item \textbf{Command}: A classe \texttt{ConsoleClient} lê uma linha do console e a trassforma em um objeto que representa om comando, para que ele possa ser invocado posteriormente de forma centralizada.
+\end{itemize}
 
 \section{Instruções de Uso e Exemplos}
 \label{sec:examples}
