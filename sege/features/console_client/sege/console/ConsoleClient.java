@@ -8,7 +8,7 @@ import sege.GameException;
 import sege.GameService;
 import sege.GameServiceImpl;
 
-public class Main {
+public class ConsoleClient {
 
 	public static void main(String[] args) throws IOException {
 		GameService gs = GameServiceImpl.create();
