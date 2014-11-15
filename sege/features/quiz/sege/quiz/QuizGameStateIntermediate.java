@@ -11,7 +11,7 @@ import sege.quiz.Question;
 
 public class QuizGameStateIntermediate extends QuizGameState {
 
-	private static final int LAST_ROUND = 4;
+	private static final int LAST_ROUND = 8;
 	private int currentPlayer;
 	private int currentRound;
 	private Question currentQuestion;

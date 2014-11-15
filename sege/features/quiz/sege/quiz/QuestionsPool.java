@@ -27,7 +27,8 @@ public class QuestionsPool {
 	
 	public Question getRandomQuestion() {
 		int index = random.nextInt(this.pool.size());
-		return this.pool.get(index);
+		Question q = this.pool.remove(index);
+		return q;
 	}
 
 }

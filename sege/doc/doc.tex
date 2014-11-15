@@ -101,7 +101,7 @@ max\_8p & Máximo de oito jogadores\\
 \section{Projeto}
 \label{sec:design}
 
-O sistema foi projetado e desenvolvido utilizando uma metodologia semelhanto ao modelo cascata. O planejamento do projeto incluiu cinco atividades principais, descritas na Tabela~\ref{tab:activities}.
+O sistema foi projetado e desenvolvido utilizando uma metodologia semelhanto ao modelo cascata. O planejamento do projeto incluiu cinco atividades principais, descritas na Tabela~\ref{tab:activities}.~\footnote{A implementação do módule SimulES não foi concluída}
 %Primeiramente, foi feito um estudo de qual tecnologia seria utilizada para implementar a SPL proposta, priorizando a adoção das técnicas vistas em sala. Em seguida foi construído o modelo de características, identificando os pontos de variabilidade do sistema. O terceiro passo foi a definição da arquitetura do sistema 
 
 \begin{table*}[htb]\centering
@@ -237,7 +237,23 @@ Os seguintes padrões de projeto foram utilizados na implementação do código:
 \section{Instruções de Uso e Exemplos}
 \label{sec:examples}
 
+\subsection{Configuração e compilação de produtos}
 
+O pacote distribuído contém o código fonte organizado como um projeto Eclipse. Para importar tal projeto, é necessário ter instalado no Eclipse os plug-ins \emph{FeatureIDE} (com o módulo \emph{FeatureHouse}) e \emph{IvyDE}. Os passos para configuração e compilação de um produto são:
+\begin{itemize}
+\item Importar o projeto no \emph{workspace}.
+\item Acionar o comando \emph{Resolve all} do \emph{IvyDE} para recuperar as depedências para arquivos JAR de API's externas.
+\item Criar ou modificar uma configuração existente na pasta \texttt{configs} e selecioná-la como configuração corrente.
+\item Executar a classe \texttt{WebServer} como aplicação Java para iniciar o servidor. Alternativamente, pode ser usada a classe \texttt{ConsoleClient} para testar a aplicação mais facilmente, pois ela já roda cliente e servidor em um único processo e oferece uma interface em linha de comando para interação.
+\end{itemize}
+
+\subsection{Exemplos de produtos}
+
+O sistema contém duas configurações de produtos, para fins de exemplo:
+\begin{itemize}
+\item \textbf{product1} Servidor com o jogo Quiz, com perguntas sobre Desenvolvimento Orientado a Aspectos e Engenharia de Software Baseada em Componentes.
+\item \textbf{product2} Servidor com o SimulES, com um mínimo de 2 jogadores, sem incluir cartas de práticas de ES.
+\end{itemize}
 
 \FloatBarrier
 \bibliographystyle{sbc}
